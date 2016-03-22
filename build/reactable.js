@@ -443,6 +443,10 @@ window.ReactDOM["default"] = window.ReactDOM;
                     onClick: this.handleClick.bind(this)
                 };
 
+                if (typeof this.props.style !== 'undefined') {
+                    tdProps.style = this.props.style;
+                }
+
                 // Attach any properties on the column to this Td object to allow things like custom event handlers
                 if (typeof this.props.column === 'object') {
                     for (var key in this.props.column) {
@@ -829,6 +833,102 @@ window.ReactDOM["default"] = window.ReactDOM;
             exports: {}
         };
         factory(mod.exports, global.React);
+        global.links = mod.exports;
+    }
+})(this, function (exports, _react) {
+    'use strict';
+
+    var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+    var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+    function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+    function pageHref(name) {
+        return '#page-' + name;
+    }
+
+    var Links = (function (_React$Component) {
+        _inherits(Links, _React$Component);
+
+        function Links() {
+            _classCallCheck(this, Links);
+
+            _get(Object.getPrototypeOf(Links.prototype), 'constructor', this).apply(this, arguments);
+        }
+
+        _createClass(Links, [{
+            key: 'handlePageButton',
+            value: function handlePageButton(page, e) {
+                e.preventDefault();
+                this.props.onPageChange(page);
+            }
+        }, {
+            key: 'renderPageButton',
+            value: function renderPageButton(className, link) {
+
+                return _react['default'].createElement(
+                    'a',
+                    { className: className,
+                        key: link.rel,
+                        href: pageHref(link.rel),
+                        onClick: this.handlePageButton.bind(this, link) },
+                    link.rel
+                );
+            }
+        }, {
+            key: 'render',
+            value: function render() {
+                if (typeof this.props.colSpan === 'undefined') {
+                    throw new TypeError('Must pass a colSpan argument to Links');
+                }
+
+                if (typeof this.props.paginationLinks === 'undefined') {
+                    throw new TypeError('Must pass an object paginationLinks argument to Links');
+                }
+
+                var pageButtons = [];
+
+                for (var i = 0; i < this.props.paginationLinks.length; i++) {
+                    var className = "reactable-page-button";
+                    pageButtons.push(this.renderPageButton(className, this.props.paginationLinks[i]));
+                }
+
+                return _react['default'].createElement(
+                    'tbody',
+                    { className: 'reactable-pagination-links' },
+                    _react['default'].createElement(
+                        'tr',
+                        null,
+                        _react['default'].createElement(
+                            'td',
+                            { colSpan: this.props.colSpan },
+                            pageButtons
+                        )
+                    )
+                );
+            }
+        }]);
+
+        return Links;
+    })(_react['default'].Component);
+
+    exports.Links = Links;
+    ;
+});
+
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define(['exports', 'react'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'));
+    } else {
+        var mod = {
+            exports: {}
+        };
+        factory(mod.exports, global.React);
         global.paginator = mod.exports;
     }
 })(this, function (exports, _react) {
@@ -983,17 +1083,17 @@ window.ReactDOM["default"] = window.ReactDOM;
 
 (function (global, factory) {
     if (typeof define === 'function' && define.amd) {
-        define(['exports', 'react', './lib/filter_props_from', './lib/extract_data_from', './unsafe', './thead', './th', './tr', './tfoot', './paginator'], factory);
+        define(['exports', 'react', './lib/filter_props_from', './lib/extract_data_from', './unsafe', './thead', './th', './tr', './tfoot', './paginator', './links'], factory);
     } else if (typeof exports !== 'undefined') {
-        factory(exports, require('react'), require('./lib/filter_props_from'), require('./lib/extract_data_from'), require('./unsafe'), require('./thead'), require('./th'), require('./tr'), require('./tfoot'), require('./paginator'));
+        factory(exports, require('react'), require('./lib/filter_props_from'), require('./lib/extract_data_from'), require('./unsafe'), require('./thead'), require('./th'), require('./tr'), require('./tfoot'), require('./paginator'), require('./links'));
     } else {
         var mod = {
             exports: {}
         };
-        factory(mod.exports, global.React, global.filter_props_from, global.extract_data_from, global.unsafe, global.thead, global.th, global.tr, global.tfoot, global.paginator);
+        factory(mod.exports, global.React, global.filter_props_from, global.extract_data_from, global.unsafe, global.thead, global.th, global.tr, global.tfoot, global.paginator, global.links);
         global.table = mod.exports;
     }
-})(this, function (exports, _react, _libFilter_props_from, _libExtract_data_from, _unsafe, _thead, _th, _tr, _tfoot, _paginator) {
+})(this, function (exports, _react, _libFilter_props_from, _libExtract_data_from, _unsafe, _thead, _th, _tr, _tfoot, _paginator, _links) {
     'use strict';
 
     var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1400,6 +1500,7 @@ window.ReactDOM["default"] = window.ReactDOM;
                 // Determine pagination properties and which columns to display
                 var itemsPerPage = 0;
                 var pagination = false;
+                var paginationLinks = false;
                 var numPages = undefined;
                 var currentPage = this.state.currentPage;
                 var pageButtonLimit = this.props.pageButtonLimit || 10;
@@ -1415,6 +1516,10 @@ window.ReactDOM["default"] = window.ReactDOM;
 
                     pagination = true;
                     currentChildren = filteredChildren.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+                }
+
+                if (this.props.paginationLinks) {
+                    paginationLinks = this.props.paginationLinks;
                 }
 
                 // Manually transfer props
@@ -1463,6 +1568,14 @@ window.ReactDOM["default"] = window.ReactDOM;
                             }
                         },
                         key: 'paginator' }) : null,
+                    paginationLinks ? _react['default'].createElement(_links.Links, { colSpan: columns.length,
+                        paginationLinks: paginationLinks,
+                        onPageChange: function (page) {
+                            if (_this.props.onPageChange) {
+                                _this.props.onPageChange(page);
+                            }
+                        },
+                        key: 'paginator-links' }) : null,
                     this.tfoot
                 );
             }

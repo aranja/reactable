@@ -7,6 +7,7 @@ import { Th } from './th';
 import { Tr } from './tr';
 import { Tfoot } from './tfoot';
 import { Paginator } from './paginator';
+import { Links } from './links';
 
 export class Table extends React.Component {
     constructor(props) {
@@ -403,6 +404,7 @@ export class Table extends React.Component {
         // Determine pagination properties and which columns to display
         let itemsPerPage = 0;
         let pagination = false;
+        let paginationLinks = false;
         let numPages;
         let currentPage = this.state.currentPage;
         let pageButtonLimit = this.props.pageButtonLimit || 10;
@@ -421,6 +423,10 @@ export class Table extends React.Component {
                 currentPage * itemsPerPage,
                 (currentPage + 1) * itemsPerPage
             );
+        }
+
+        if (this.props.paginationLinks) {
+            paginationLinks = this.props.paginationLinks
         }
 
         // Manually transfer props
@@ -460,6 +466,16 @@ export class Table extends React.Component {
                      }
                  }}
                  key="paginator"/>
+             : null}
+             {paginationLinks ?
+             <Links colSpan={columns.length}
+                 paginationLinks={paginationLinks}
+                 onPageChange={page => {
+                     if (this.props.onPageChange) {
+                        this.props.onPageChange(page)
+                     }
+                 }}
+                 key="paginator-links"/>
              : null}
             {this.tfoot}
         </table>;
